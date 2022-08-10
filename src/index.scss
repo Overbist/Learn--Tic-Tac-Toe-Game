@@ -1,4 +1,11 @@
 /* ---------------------------------------------------------------
+ * 01. Variables
+ * 02. Basic Styles
+ * 03. Structure
+ * 04. Content
+ * ------------------------------------------------------------ */
+
+/* ---------------------------------------------------------------
  * 01. Variables and other
  * ------------------------------------------------------------ */
 :root {
@@ -7,7 +14,7 @@
   --title-shadow: 0 0 5px #000, 0 0 10px #000;
   --box-shadow: 0 0 11px rgba(0, 0, 0, 0.8);
   --box-background: rgba(0, 0, 0, 0.4);
-  //--body-background: url(./assets/img/bg.jpeg);
+  --font-main: 'Permanent Marker', 'Ubuntu', sans-serif;
 }
 
 ::-webkit-scrollbar {
@@ -26,30 +33,26 @@
 /* ---------------------------------------------------------------
  * 02. Basic Styles
  * ------------------------------------------------------------ */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
+// * {
+//   margin: 0;
+//   padding: 0;
+//   box-sizing: border-box;
+// }
 
 body {
   position: relative;
   min-width: 320px;
   background-color: #222222;
-  //background: var(--body-background);
+  background: url(../public/img/background-min.jpg);
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
   background-attachment: fixed;
   color: var(--text-color);
-  font-family: 'Permanent Marker', 'Ubuntu', sans-serif;
+  font-family: var(--font-main);
   font-weight: 400;
   font-size: 14px;
   line-height: 1.4;
-}
-
-h1 {
-  color: var(--accent);
 }
 
 /* ---------------------------------------------------------------
@@ -60,8 +63,50 @@ h1 {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  min-width: 100vw;
   min-height: 100vh;
+}
+
+.container {
+  width: 100%;
+  max-width: 768px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.inner {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 65vh;
+  padding: 40px 20px;
+}
+
+.background {
+  width: 100%;
+  height: 100%;
+  backdrop-filter: blur(4px);
+  background-color: var(--box-background);
+  box-shadow: var(--box-shadow);
+}
+
+/* ---------------------------------------------------------------
+ * 04. Content
+ * ------------------------------------------------------------ */
+.title {
+  color: var(--accent);
+  font-size: calc(8px + 5vmin);
+  text-shadow: var(--title-shadow);
+  transition: 1s;
+
+  &:hover {
+    text-decoration: line-through;
+    transform: scale(1.1);
+  }
+
+  &--center {
+    text-align: center;
+  }
 }
 
 .btn {
@@ -75,11 +120,21 @@ h1 {
   background: none;
   border: 1px solid var(--accent);
   color: var(--accent);
-  font-family: 'Permanent Marker', 'Ubuntu', sans-serif;
+  font-family: var(--font-main);
   font-weight: 400;
-  font-size: 16px;
+  font-size: 20px;
   line-height: 1.2;
   text-align: center;
   text-decoration: none;
+  transition: 0.5s;
   cursor: pointer;
+
+  &:hover {
+    box-shadow: 0 0 5px var(--accent), 0 0 25px var(--accent),
+      0 0 50px var(--accent);
+  }
+
+  &--center {
+    margin: 0 auto;
+  }
 }

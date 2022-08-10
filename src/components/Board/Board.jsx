@@ -1,6 +1,7 @@
 import { v4 as uuid } from 'uuid'
+import { toast } from 'react-toastify'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Square } from '../Square/Square'
 import { calculateWinner } from '../../helper'
 
@@ -8,31 +9,57 @@ import './Board.scss'
 
 export function Board() {
   const initialBoardState = Array(9).fill(null)
+
   const [board, setBoard] = useState(initialBoardState)
   const [xIsNext, setXIsNext] = useState(true)
+  const [titleText, setTitleText] = useState('Player X turn')
 
   const winner = calculateWinner(board)
 
+  useEffect(() => {
+    nextTurn()
+    draw()
+    winnerText()
+  }, [board])
+
   const handleClick = (index) => {
     const boardCopy = [...board]
+
     if (winner || boardCopy[index]) return
 
     boardCopy[index] = xIsNext ? 'X' : 'O'
+
     setBoard(boardCopy)
     setXIsNext(!xIsNext)
   }
 
-  const startNewGame = () => {
-    return setBoard(initialBoardState)
+  const nextTurn = () => {
+    if (!winner) {
+      setTitleText(`Player ${xIsNext ? 'X' : 'O'} turn `)
+    }
+  }
+
+  const draw = () => {
+    if (!board.includes(null)) {
+      setTitleText('The players agreed to a draw')
+      toast.success(`The players agreed to a draw`)
+    }
+  }
+
+  const winnerText = () => {
+    if (winner) {
+      setTitleText(`🎉 ${winner} Winner 🎉`)
+      toast.success(`Congratulations ${winner} Winner 🎉🎉🎉`)
+    }
+  }
+
+  const onStartNewGame = () => {
+    setBoard(initialBoardState)
   }
 
   return (
     <>
-      <h1>
-        {winner // TODO: added "The players agreed to a draw"
-          ? 'Winner' + winner
-          : `Player ${xIsNext ? 'X' : 'O'} turn `}
-      </h1>
+      <h1 className="title title--center">{titleText}</h1>
       <div className="board">
         {board.map((square, index) => (
           <Square
@@ -42,8 +69,8 @@ export function Board() {
           />
         ))}
       </div>
-      <button className="btn" onClick={() => startNewGame()}>
-        Clear board
+      <button className="btn" onClick={() => onStartNewGame()}>
+        Start New Game
       </button>
     </>
   )
